@@ -1,14 +1,22 @@
 <template>
   <div class="ebook">
-    <e-book-reader></e-book-reader>
+    <ebook-title></ebook-title>
+    <ebook-reader></ebook-reader>
+    <ebook-menu></ebook-menu>
   </div>
 </template>
 
 <script>
-import EBookReader from "@/components/ebook/EBookReader.vue";
+import EbookReader from '@/components/ebook/EbookReader.vue'
+import EbookTitle from '@/components/ebook/EbookTitle.vue'
+import EbookMenu from '@/components/ebook/EbookMenu.vue'
 
 export default {
-  components: {EBookReader}
+  components: {
+    EbookReader: EbookReader,
+    EbookTitle: EbookTitle,
+    EbookMenu: EbookMenu
+  }
 }
 </script>
 

@@ -11,7 +11,7 @@ const routes = [
     children: [
       {
         path: ':fileName',
-        component: () => import('../components/ebook/EBookReader.vue')
+        component: () => import('../components/ebook/EbookReader.vue')
       }
     ]
   }

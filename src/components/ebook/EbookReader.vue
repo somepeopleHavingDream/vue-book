@@ -1,32 +1,35 @@
 <template>
   <div class="ebook-reader">
-    <div id="read"></div>
+    <div id="read" class="read-class"></div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { ebookMixin } from '@/utils/mixin'
 import Epub from 'epubjs'
 
 global.ePub = Epub
 
 export default {
-  computed: {
-    ...mapGetters(['fileName'])
-  },
+  mixins: [ebookMixin],
   methods: {
     prevPage () {
       if (this.rendition) {
         this.rendition.prev()
+        this.hideTitleAndMenu()
       }
     },
     nextPage () {
       if (this.rendition) {
         this.rendition.next()
+        this.hideTitleAndMenu()
       }
     },
     toggleTitleAndMenu () {
-
+      this.setMenuVisible(!this.menuVisible)
+    },
+    hideTitleAndMenu () {
+      this.setMenuVisible(false)
     },
     initEpub () {
       const url = 'http://192.168.1.107:8081/' + this.fileName + '.epub'
@@ -36,7 +39,8 @@ export default {
 
       this.rendition = this.book.renderTo('read', {
         width: innerWidth,
-        height: innerHeight
+        height: innerHeight,
+        allowScriptedContent: true
       })
       this.rendition.display()
       this.rendition.on('touchstart', event => {
@@ -65,8 +69,7 @@ export default {
       return
     }
 
-    const fileName = fileNameParam.split('|').join('/')
-    this.$store.dispatch('setFileName', fileName)
+    this.setFileName(fileNameParam.split('|').join('/'))
       .then(() => {
         this.initEpub()
       })
@@ -76,4 +79,8 @@ export default {
 
 <style lang="scss" rel="stylesheet/scss" scoped>
 @import "../../assets/styles/global";
+
+.read-class {
+  margin-top: px2rem(30);
+}
 </style>
